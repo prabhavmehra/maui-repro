@@ -21,40 +21,34 @@
                                 HeightRequest="50"
                                 Text="Open Sidesheet"
                                 VerticalOptions="Start" />
-                            <Label Grid.Row="1" Text="{Binding PageWidthView}" />
+                            <Label Grid.Row="1" Text="{Binding Width, Source={x:Reference CustomViewName}}" />
                             <ContentPresenter Grid.Row="2" Content="{TemplateBinding Header}" />
                         </Grid>
                     </Grid>
 
-                    <Border
-                        x:Name="sidesheet"
-                        Grid.Column="{extension:OnScreenSize '1',
-                                                             ExtraLarge='1',
-                                                             Large='1',
-                                                             Medium='0',
-                                                             Small='0',
-                                                             ExtraSmall='0',
-                                                             PageWidth={Binding PageWidthView}}"
-                        BackgroundColor="LightGray"
-                        HorizontalOptions="End"
-                        IsVisible="False"
-                        MaximumWidthRequest="400"
-                        TranslationX="1"
-                        WidthRequest="400">
-                        <Grid RowDefinitions="Auto,*">
-                            <Button
-                                Clicked="ToggleSidesheet"
-                                HorizontalOptions="End"
-                                Text="Close Sidesheet"
-                                VerticalOptions="Start" />
-                            <ContentPresenter
-                                Grid.Row="1"
-                                Margin="5"
-                                Content="{TemplateBinding Body}" />
-                        </Grid>
+                    <Grid Grid.Column="{extension:OnScreenSize '1', ExtraLarge='1', Large='1', Medium='0', Small='0', ExtraSmall='0', PageWidth={Binding Width, Source={x:Reference CustomViewName}}}">
+                        <Border
+                            x:Name="sidesheet"
+                            BackgroundColor="LightGray"
+                            HorizontalOptions="End"
+                            IsVisible="False"
+                            MaximumWidthRequest="400"
+                            TranslationX="1"
+                            WidthRequest="400">
+                            <Grid RowDefinitions="Auto,*">
+                                <Button
+                                    Clicked="ToggleSidesheet"
+                                    HorizontalOptions="End"
+                                    Text="Close Sidesheet"
+                                    VerticalOptions="Start" />
+                                <ContentPresenter
+                                    Grid.Row="1"
+                                    Margin="5"
+                                    Content="{TemplateBinding Body}" />
+                            </Grid>
 
-                    </Border>
-
+                        </Border>
+                    </Grid>
 
                 </Grid>
             </Border>
