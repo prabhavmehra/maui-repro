@@ -5,63 +5,60 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:extension="clr-namespace:maui_repro.Extensions"
     xmlns:local="clr-namespace:maui_repro"
-    x:Name="SidesheetName"
-    Title="SidesheetPage">
+    x:Name="NewSheetsPageName"
+    Title="SidesheetPage"
+    x:DataType="local:ViewModel">
 
-    <Grid ColumnDefinitions="*,Auto">
-        <Grid Grid.Column="0">
-            <Grid RowDefinitions="Auto,*">
+    <local:CustomView PageWidthView="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=Width}">
+        <local:CustomView.Header>
 
-                <Button
-                    Clicked="ToggleSidesheet"
-                    HeightRequest="50"
-                    Text="Open Sidesheet" />
-                <ScrollView Grid.Row="1">
-                    <VerticalStackLayout Padding="30,0" Spacing="25">
-                        <Image
-                            Aspect="AspectFit"
-                            HeightRequest="185"
-                            SemanticProperties.Description="dot net bot in a race car number eight"
-                            Source="dotnet_bot.png" />
+            <Grid x:Name="mainGrid" RowDefinitions="*">
+                <!--  Main Content  -->
 
-                        <Label
-                            SemanticProperties.HeadingLevel="Level1"
-                            Style="{StaticResource Headline}"
-                            Text="Working page with Markup Extension" />
 
-                        <Label
-                            SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                            SemanticProperties.HeadingLevel="Level2"
-                            Style="{StaticResource SubHeadline}"
-                            Text="Welcome to &#10;.NET Multi-platform App UI" />
 
-                    </VerticalStackLayout>
-                </ScrollView>
+
+                <CollectionView
+                    x:Name="MonkeyList"
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModel}}, Path=Monkeys}"
+                    VerticalOptions="Center">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Monkey">
+                            <Grid
+                                Padding="10"
+                                ColumnDefinitions="60,Auto"
+                                RowDefinitions="35, 35">
+                                <Image
+                                    x:Name="ImageMonkey"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Aspect="AspectFill"
+                                    HeightRequest="50"
+                                    Source="{Binding ImageUrl}"
+                                    WidthRequest="50" />
+                                <Label
+                                    x:Name="LabelName"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Name}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </Grid>
+        </local:CustomView.Header>
 
-        </Grid>
-        <Grid x:Name="parentGrid" Grid.Column="{extension:OnScreenSize '1', ExtraLarge='1', Large='1', Medium='1', Small='0', ExtraSmall='0', PageWidth={Binding Width, Source={x:Reference SidesheetName}}}">
-            <Border
-                x:Name="sidesheet"
-                BackgroundColor="LightGray"
-                HorizontalOptions="End"
-                IsVisible="False"
-                MaximumWidthRequest="400"
-                TranslationX="1"
-                WidthRequest="400">
-                <StackLayout>
-                    <Button
-                        Clicked="ToggleSidesheet"
-                        HorizontalOptions="End"
-                        Text="Close Sidesheet"
-                        VerticalOptions="Start" />
-                    <Label Grid.Row="1" Text="Here" />
-                </StackLayout>
+        <local:CustomView.Body>
+            <Label Text="Here" />
 
-            </Border>
-        </Grid>
-
-    </Grid>
+        </local:CustomView.Body>
+    </local:CustomView>
 
 </ContentPage>

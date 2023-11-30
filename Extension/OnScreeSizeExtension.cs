@@ -1,6 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace maui_repro.Extensions;
 
@@ -19,7 +24,7 @@ public class OnScreenSizeExtension : BindableObject, IMarkupExtension<BindingBas
 
     private static void OnPageWidthChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        Debug.WriteLine(newValue);
+        Debug.WriteLine("Extension: " + newValue);
         WeakReferenceMessenger.Default.Send(new ScreenSizeChangedMessage((double)newValue));
     }
 
@@ -43,6 +48,15 @@ public class OnScreenSizeExtension : BindableObject, IMarkupExtension<BindingBas
     {
         var typeConverter = TypeConverter != null ? (TypeConverter)Activator.CreateInstance(TypeConverter) : null;
 
+        //var widthSource = new OnScreenSizeSource
+        //{
+        //    DefaultValue = typeConverter?.ConvertFromInvariantString((string)Default) ?? Default,
+        //    ExtraSmallValue = GetValueOrPrevious(typeConverter, ExtraSmall),
+        //    SmallValue = GetValueOrPrevious(typeConverter, Small, ExtraSmall),
+        //    MediumValue = GetValueOrPrevious(typeConverter, Medium, Small, ExtraSmall),
+        //    LargeValue = GetValueOrPrevious(typeConverter, Large, Medium, Small, ExtraSmall),
+        //    ExtraLargeValue = GetValueOrPrevious(typeConverter, ExtraLarge, Large, Medium, Small, ExtraSmall)
+        //};
         var widthSource = new OnScreenSizeSource
         {
             DefaultValue = typeConverter?.ConvertFromInvariantString((string)Default) ?? Default,
@@ -52,8 +66,6 @@ public class OnScreenSizeExtension : BindableObject, IMarkupExtension<BindingBas
             LargeValue = GetValueOrPrevious(typeConverter, Large, Medium, Small, ExtraSmall),
             ExtraLargeValue = GetValueOrPrevious(typeConverter, ExtraLarge, Large, Medium, Small, ExtraSmall)
         };
-
-
 
         return new Binding
         {

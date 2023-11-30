@@ -1,3 +1,7 @@
+using CommunityToolkit.Mvvm.Messaging;
+using System.Diagnostics;
+using static maui_repro.Extensions.OnScreenSizeExtension;
+
 namespace maui_repro;
 
 public partial class CustomView : ContentView
@@ -6,6 +10,20 @@ public partial class CustomView : ContentView
     public static readonly BindableProperty HeaderProperty = BindableProperty.Create(nameof(Header), typeof(IView), typeof(CustomView));
     public static readonly BindableProperty BodyProperty = BindableProperty.Create(nameof(Body), typeof(IView), typeof(CustomView));
 
+    public static readonly BindableProperty PageWidthViewProperty = BindableProperty.Create(nameof(PageWidthView), typeof(double), typeof(CustomView), default(double), propertyChanged: OnPageWidthChanged);
+
+
+    public double PageWidthView
+    {
+        get { return (double)GetValue(PageWidthViewProperty); }
+        set { SetValue(PageWidthViewProperty, value); }
+    }
+
+    private static void OnPageWidthChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        Debug.WriteLine("NewExtension: " + newValue);
+        WeakReferenceMessenger.Default.Send(new ScreenSizeChangedMessage((double)newValue));
+    }
     public Color HeaderBackgroundColor
     {
         get => (Color)GetValue(HeaderBackgroundColorProperty);

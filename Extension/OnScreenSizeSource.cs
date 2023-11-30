@@ -1,6 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Devices;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace maui_repro.Extensions;
 
@@ -92,6 +98,7 @@ public class OnScreenSizeSource : INotifyPropertyChanged
 
     private void OnScreenSizeChanged(OnScreenSizeSource r, OnScreenSizeExtension.ScreenSizeChangedMessage m)
     {
+
         var newValue = m.NewValue;
 
         Value = newValue switch
@@ -103,9 +110,13 @@ public class OnScreenSizeSource : INotifyPropertyChanged
             var width when width >= 1600 => ExtraLargeValue ?? DefaultValue,  // Extra Large
             _ => DefaultValue  // Default for undefined cases
         };
+        Debug.WriteLine("Value: " + Value);
 
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
 
     }
+
+
+
     public event PropertyChangedEventHandler PropertyChanged;
 }

@@ -20,6 +20,10 @@ namespace maui_repro
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddTransient<ViewModel>();
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<SidesheetPage>();
+            builder.Services.AddTransient<CustomView>();
 
             return builder.Build();
         }

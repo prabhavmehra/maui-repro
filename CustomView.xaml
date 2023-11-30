@@ -15,38 +15,46 @@
                 StrokeThickness="1">
                 <Grid ColumnDefinitions="*,Auto">
                     <Grid Grid.Column="0" BackgroundColor="{TemplateBinding HeaderBackgroundColor}">
-                        <Grid RowDefinitions="Auto,*">
+                        <Grid RowDefinitions="Auto,Auto, *">
                             <Button
                                 Clicked="ToggleSidesheet"
                                 HeightRequest="50"
                                 Text="Open Sidesheet"
                                 VerticalOptions="Start" />
-                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding Header}" />
+                            <Label Grid.Row="1" Text="{Binding PageWidthView}" />
+                            <ContentPresenter Grid.Row="2" Content="{TemplateBinding Header}" />
                         </Grid>
                     </Grid>
-                    <Grid x:Name="parentGrid" Grid.Column="{extension:OnScreenSize '1', Large='1', ExtraSmall='0', PageWidth={Binding Width, Source={x:Reference CustomViewName}}}">
-                        <Border
-                            x:Name="sidesheet"
-                            BackgroundColor="LightGray"
-                            HorizontalOptions="End"
-                            IsVisible="False"
-                            MaximumWidthRequest="400"
-                            TranslationX="1"
-                            WidthRequest="400">
-                            <Grid RowDefinitions="Auto,*">
-                                <Button
-                                    Clicked="ToggleSidesheet"
-                                    HorizontalOptions="End"
-                                    Text="Close Sidesheet"
-                                    VerticalOptions="Start" />
-                                <ContentPresenter
-                                    Grid.Row="1"
-                                    Margin="5"
-                                    Content="{TemplateBinding Body}" />
-                            </Grid>
 
-                        </Border>
-                    </Grid>
+                    <Border
+                        x:Name="sidesheet"
+                        Grid.Column="{extension:OnScreenSize '1',
+                                                             ExtraLarge='1',
+                                                             Large='1',
+                                                             Medium='0',
+                                                             Small='0',
+                                                             ExtraSmall='0',
+                                                             PageWidth={Binding PageWidthView}}"
+                        BackgroundColor="LightGray"
+                        HorizontalOptions="End"
+                        IsVisible="False"
+                        MaximumWidthRequest="400"
+                        TranslationX="1"
+                        WidthRequest="400">
+                        <Grid RowDefinitions="Auto,*">
+                            <Button
+                                Clicked="ToggleSidesheet"
+                                HorizontalOptions="End"
+                                Text="Close Sidesheet"
+                                VerticalOptions="Start" />
+                            <ContentPresenter
+                                Grid.Row="1"
+                                Margin="5"
+                                Content="{TemplateBinding Body}" />
+                        </Grid>
+
+                    </Border>
+
 
                 </Grid>
             </Border>
