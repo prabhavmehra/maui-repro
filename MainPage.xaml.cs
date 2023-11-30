@@ -1,4 +1,6 @@
-﻿namespace maui_repro
+﻿using System.Diagnostics;
+
+namespace maui_repro
 {
     public partial class MainPage : ContentPage
     {
@@ -7,18 +9,25 @@
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new ViewModel();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        //private async void OnCounterClicked(object sender, EventArgs e)
+        //{
+        //    await Shell.Current.GoToAsync(nameof(SidesheetPage));
+        //}
+        private bool isSidesheetVisible = false;
+
+        void ToggleSidesheet(object sender, EventArgs e)
         {
-            count++;
+            Debug.WriteLine("here clicked");
+            isSidesheetVisible = !isSidesheetVisible;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            double translationX = isSidesheetVisible ? 0 : sidesheet.Width; // Slide in from the right
+            sidesheet.TranslateTo(translationX, 0, 250, Easing.SinInOut);
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            // Toggle visibility of the sidesheet content
+            sidesheet.IsVisible = isSidesheetVisible;
         }
     }
 
